@@ -11,8 +11,8 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
-	res.send(' coming from the doctors portals ');
+	res.send(' valo mon  ');
 })
 app.listen(port, () => {
-	console.log(` Doctor Portal Running to this port  ${port}`)
+	console.log(` valo mon   ${port}`)
   })
