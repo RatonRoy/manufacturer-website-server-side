@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const port = process.env.PORT || 5000;
 
@@ -18,14 +18,29 @@ async function run() {
 	try {
 		await client.connect();
 
-		console.log('database connected ');
+		// console.log('database connected ');
 
 		const partCollection = client.db('computer-parts').collection('parts');
+		const orderCollection = client.db('computer-parts').collection('orders');
+
 		app.get('/part', async (req, res) => {
 			const query = {};
 			const cursor = partCollection.find(query);
 			const parts = await cursor.toArray();
 			res.send(parts);
+		})
+
+		app.get('/part/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: ObjectId(id) };
+			const result = await partCollection.findOne(query);
+			res.send(result);
+		});
+
+		app.post('/order', async (req, res) => {
+			const order = req.body;
+			const result = await orderCollection.insertOne(order);
+			res.send(result);
 		})
 	}
 	finally {
@@ -41,5 +56,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log(` valo mon   ${port}`)
+	console.log(` computer parts   ${port}`);
 })
