@@ -22,7 +22,8 @@ async function run() {
 
 		const partCollection = client.db('computer-parts').collection('parts');
 		const orderCollection = client.db('computer-parts').collection('orders');
-		const reviewCollection = client.db('computer-parts').collection('reviews');
+		const reviewCollection = client.db('computer-parts').collection('review');
+		const userCollection = client.db('computer-parts').collection('user');
 
 		app.get('/part', async (req, res) => {
 			const query = {};
@@ -67,6 +68,19 @@ async function run() {
 			res.send(reviews);
 		})
 
+		app.put('/user/:email', async (req, res) => {
+			const email = req.params.email;
+			const user = req.body;
+			const filter = { email: email };
+			const options = { upsert: true };
+			const updateDoc = {
+			  $set: user,
+			};
+			const result = await userCollection.updateOne(filter, updateDoc, options);
+			// const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+			res.send({ result});
+		  })
+
 	}
 	finally {
 
@@ -77,7 +91,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-	res.send(' valo mon  ');
+	res.send(' computer parts  ');
 })
 
 app.listen(port, () => {
