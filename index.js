@@ -40,6 +40,7 @@ async function run() {
 		const partCollection = client.db('computer-parts').collection('parts');
 		const orderCollection = client.db('computer-parts').collection('orders');
 		const reviewCollection = client.db('computer-parts').collection('review');
+		const profileCollection = client.db('computer-parts').collection('profile');
 		const userCollection = client.db('computer-parts').collection('user');
 
 		app.get('/part', async (req, res) => {
@@ -53,7 +54,7 @@ async function run() {
 		app.post('/part', async (req, res) => {
 
 			const newPart = req.body;
-			
+
 			const result = await partCollection.insertOne(newPart);
 
 			res.send(result);
@@ -89,6 +90,11 @@ async function run() {
 		app.post('/review', async (req, res) => {
 			const review = req.body;
 			const result = await reviewCollection.insertOne(review);
+			res.send(result);
+		})
+		app.post('/profile', async (req, res) => {
+			const profile = req.body;
+			const result = await profileCollection.insertOne(profile);
 			res.send(result);
 		})
 
