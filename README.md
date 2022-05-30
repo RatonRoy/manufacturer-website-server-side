@@ -1,4 +1,4 @@
-### I am using those thechnologies 
+### I am using those technologies 
 
  * cors
  * dotenv
