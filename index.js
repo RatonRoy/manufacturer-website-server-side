@@ -49,6 +49,17 @@ async function run() {
 			res.send(parts);
 		})
 
+		// send data to the server 
+		app.post('/part', async (req, res) => {
+
+			const newPart = req.body;
+			
+			const result = await partCollection.insertOne(newPart);
+
+			res.send(result);
+
+		})
+
 		app.get('/part/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: ObjectId(id) };
@@ -144,7 +155,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-	res.send(' computer parts  ');
+	res.send(' computer parts');
 })
 
 app.listen(port, () => {
